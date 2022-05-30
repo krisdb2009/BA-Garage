@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    string visibility = "hidden";
+    string sTrigger = Request.Form.Get("trigger");
+    if (uint.TryParse(sTrigger, out uint uTrigger))
+    {
+        byte bTrigger = (byte)uTrigger;
+        GarageDriver.Trigger(bTrigger);
+        visibility = "visible";
+    }
+}
+<style>
+    .fadeout {
+        animation: fade-in-out 2s;
+    }
+    @@keyframes fade-in-out {
+        0% {
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        80% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+<div style="margin:20px 0px;visibility:@visibility;opacity:0;" class="alert alert-success fadeout" role="alert">Command sent, garage #@sTrigger should now be moving.</div>
+<div style="width:100%;height:calc(100vh - 280px);display:flex;flex-direction:row;align-items:center;">
+    <div style="width:100%;display:flex;justify-content:center;flex-wrap:wrap;">
+        <div style="margin:10px" class="panel panel-default">
+            <div class="panel-body">
+                <h4>Garage #1</h4>
+                <form method="post" action=".">
+                    <input type="hidden" name="trigger" value="0" />
+                    <button type="submit" class="btn btn-primary">Open / Close</button>
+                </form>
+            </div>
+        </div>
+        <div style="margin:10px" class="panel panel-default">
+            <div class="panel-body">
+                <h4>Garage #2</h4>
+                <form method="post" action=".">
+                    <input type="hidden" name="trigger" value="1" />
+                    <button type="submit" class="btn btn-primary">Open / Close</button>
+                </form>
+            </div>
+        </div>
+     </div>
+ </div>
